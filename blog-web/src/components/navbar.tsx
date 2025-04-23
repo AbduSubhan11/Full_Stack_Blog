@@ -1,31 +1,23 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "./ui/sheet";
 import { usePathname } from "next/navigation";
+import { Profile } from "./profile";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const route = usePathname()
+  const route = usePathname();
 
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Blogs", href: "/blogs" },
-    { name: "Resources", href: "/resources" },
+    { name: "Create", href: "/create" },
   ];
 
   return (
     <nav className="bg-[#191919] sticky top-0 z-50 ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="2xl:max-w-[1400px] w-[90%] mx-auto ">
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
@@ -56,7 +48,11 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`text-[#807f7f] hover:text-white transition ${route === link.href ? 'px-3 py-1 rounded-lg border border-gray-700 text-white bg-[#141414] ' : ''}`}
+                className={`text-[#807f7f] hover:text-white transition ${
+                  route === link.href
+                    ? "px-3 py-1 rounded-lg border border-neutral-700 text-white bg-[#141414] "
+                    : ""
+                }`}
               >
                 {link.name}
               </Link>
@@ -71,38 +67,20 @@ export default function Navbar() {
               Contact Us
             </Link>
 
-            <div className="relative">
-              <Sheet>
-                <SheetTrigger>
-                  <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Are you absolutely sure?</SheetTitle>
-                    <SheetDescription>
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
-                    </SheetDescription>
-                  </SheetHeader>
-                </SheetContent>
-              </Sheet>
+            {/* LOGIN BUTTON*/}
 
-              {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
-                  <p className="px-4 py-2 text-sm text-gray-700">
-                    Are you sure? This action cannot be undone.
-                  </p>
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                  >
-                    Delete Account
-                  </button>
-                </div>
-              )}
+            {localStorage.getItem("token") === null && (
+              <Link
+                href="/login"
+                className="bg-yellow-500 text-black  py-2 px-4 rounded hover:bg-yellow-600 transition"
+              >
+                Login
+              </Link>
+            )}
+
+            <div className="relative">
+              {/* PROFILE PAGE */}
+              <Profile />
             </div>
           </div>
 
@@ -143,22 +121,29 @@ export default function Navbar() {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
                   href={link.href}
                   className="block px-3 py-2 text-gray-300 hover:text-white"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
-              <a
+              <Link
                 href="/contact"
-                className="block px-3 py-2 text-black bg-yellow-400 hover:bg-yellow-500"
+                className="block px-3 py-2 text-[#141414] bg-yellow-500 hover:bg-yellow-600"
                 onClick={() => setIsOpen(false)}
               >
                 Contact Us
-              </a>
+              </Link>
+                <Link
+                  href="/login"
+                  className="block px-3 py-2 text-[#141414] bg-yellow-500 hover:bg-yellow-600"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Login
+                </Link>
             </div>
           </div>
         )}

@@ -3,6 +3,13 @@ import bcrypt from "bcrypt";
 import { generateAuthToken } from "../utils/jwt.js";
 
 export const login = async (req, res) => {
+  if (!req.body) {
+    return res.status(400).json({ message: "Request body is required" });
+  }
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).json({ message: "Email and password are required" });
+  }
+
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -13,7 +20,9 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res
+        .status(401)
+        .json({ error: true, message: "Invalid email or password" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -28,14 +37,24 @@ export const login = async (req, res) => {
       secure: true,
       sameSite: "none",
     });
-
-    res.status(200).json(user, { message: "Login successful" });
+    
+    res.status(200).json({
+      user,
+      token,
+      message: "Login successful"
+    });
+    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+
+
 export const register = async (req, res) => {
+  if (!req.body) {
+    return res.status(400).json({ message: "Request body is required" });
+  }
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
@@ -58,9 +77,12 @@ export const register = async (req, res) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    secure: true,
-    sameSite: "none",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    path: "/",
   });
+
+  localStorage.setItem("token", token);
 
   res.status(201).json({
     user: {
@@ -70,7 +92,6 @@ export const register = async (req, res) => {
     },
     message: "Registration successful",
   });
-
 };
 
 export const logout = async (req, res) => {
@@ -86,4 +107,17 @@ export const logout = async (req, res) => {
   }
 };
 
-
+export const getCurrentUser = async (req, res) => {
+  
+  try {
+    const user  = req.user
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    console.log(user);
+    
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+};
