@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 
+
 export default function Login() {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +18,7 @@ export default function Login() {
 
     const { email, password } = formData;
 
-    if (!email || !password) return setError("Email and Password are required");
+    if (!email || !password) return toast.error("All fields are required!");
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL_AUTH}/login`, {
@@ -32,24 +32,31 @@ export default function Login() {
 
       const data = await res.json();
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
       if (data.message) {
-        setError(data.message);
+        toast.error(data.message);
       }
-      toast.success("Login successful!");
-      router.push("/");
+
+      toast.success("Login successful!", {
+        duration: 2000,
+        onAutoClose: () => {
+          router.push("/");
+        },
+      });
     } catch (error) {
       console.error("Error:", (error as Error).message);
-      setError((error as Error).message);
+      toast.error((error as Error).message);
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#141414] text-white">
+
       <form
         onSubmit={handleSubmit}
         className="bg-[#1f1f1f] p-8 rounded shadow-md w-full space-y-6 max-w-lg"
       >
-        <p className="text-center text-red-500">{error}</p>
         <h2 className="text-2xl font-bold mb-4">Login</h2>
 
         <input

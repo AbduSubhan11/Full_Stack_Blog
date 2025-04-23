@@ -69,19 +69,23 @@ export default function Navbar() {
 
             {/* LOGIN BUTTON*/}
 
-            {localStorage.getItem("token") === null && (
-              <Link
-                href="/login"
-                className="bg-yellow-500 text-black  py-2 px-4 rounded hover:bg-yellow-600 transition"
-              >
-                Login
-              </Link>
-            )}
+            {!localStorage.getItem("token") &&
+              !localStorage.getItem("user") && (
+                <Link
+                  href="/login"
+                  className="bg-yellow-500 text-black  py-2 px-4 rounded hover:bg-yellow-600 transition"
+                >
+                  Login
+                </Link>
+              )}
 
-            <div className="relative">
-              {/* PROFILE PAGE */}
-              <Profile />
-            </div>
+            {localStorage.getItem("token") &&
+              localStorage.getItem("user") && (
+                <div className="relative">
+                  {/* PROFILE PAGE */}
+                  <Profile />
+                </div>
+              )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -137,13 +141,13 @@ export default function Navbar() {
               >
                 Contact Us
               </Link>
-                <Link
-                  href="/login"
-                  className="block px-3 py-2 text-[#141414] bg-yellow-500 hover:bg-yellow-600"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Login
-                </Link>
+              <Link
+                href="/login"
+                className="block px-3 py-2 text-[#141414] bg-yellow-500 hover:bg-yellow-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Login
+              </Link>
             </div>
           </div>
         )}

@@ -7,7 +7,7 @@ export async function middleware(req: NextRequest) {
         if (!token) {
             return NextResponse.redirect(new URL('/login', req.url));
         }
-        return NextResponse.redirect(new URL('/about', req.url));
+        return NextResponse.redirect(new URL('/', req.url));
 
     } catch (error) {
         console.log('Error during token verification:', error);
@@ -17,5 +17,5 @@ export async function middleware(req: NextRequest) {
 
 // Routes 
 export const config = {
-    matcher: ['/dashboard', '/dashboard/posts', '/dashboard/create'],
+    matcher: ['/dashboard', '/dashboard/posts', '/dashboard/create' ],
 };

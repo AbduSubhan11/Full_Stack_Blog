@@ -83,6 +83,7 @@ export const register = async (req, res) => {
   });
 
   localStorage.setItem("token", token);
+  
 
   res.status(201).json({
     user: {

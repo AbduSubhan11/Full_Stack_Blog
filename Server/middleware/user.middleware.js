@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 export const authenticateUser = (req, res) => {
     try {
-        const refreshJwtToken = req.cookies.token || req.headers["authorization"]?.split(" ")[0]
+        const refreshJwtToken = req.cookies.token || req.headers["token"]?.split(" ")[0]
 
         if (!refreshJwtToken) return res.status(401).json({ message: "Please log in to access this page." });
 
