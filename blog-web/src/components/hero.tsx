@@ -1,12 +1,47 @@
 "use client";
 import { ChevronRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import ModelViewer from "./model-viewer";
+import { AnimatedTooltip } from "./ui/animated-tooltip";
+import { BackgroundBeams } from "./ui/background-beams";
+import { FlipWords } from "./ui/flip-words";
+
+const people = [
+  {
+    id: 1,
+    name: "John Doe",
+    designation: "Full Stack Developer",
+    image:
+      "https://tse3.mm.bing.net/th?id=OIP.BpMp0ESMS5Sjcv4oHAdVjQHaLH&pid=Api&P=0&h=220",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    designation: "Product Designer",
+    image:
+      "https://tse3.mm.bing.net/th?id=OIP.BpMp0ESMS5Sjcv4oHAdVjQHaLH&pid=Api&P=0&h=220",
+  },
+  {
+    id: 3,
+    name: "Samuel Green",
+    designation: "AI Researcher",
+    image:
+      "https://tse3.mm.bing.net/th?id=OIP.BpMp0ESMS5Sjcv4oHAdVjQHaLH&pid=Api&P=0&h=220",
+  },
+  {
+    id: 4,
+    name: "Lisa Brown",
+    designation: "Content Writer",
+    image:
+      "https://tse3.mm.bing.net/th?id=OIP.BpMp0ESMS5Sjcv4oHAdVjQHaLH&pid=Api&P=0&h=220",
+  },
+];
 
 export default function Hero() {
   return (
     <section className="relative bg-[#141414] text-white min-h-[90vh] flex ">
+      {/* BACKground */}
+      <BackgroundBeams />
 
       {/* RIGHT SECTION */}
       <div className="absolute w-[50%] h-full z-20 right-0">
@@ -21,27 +56,28 @@ export default function Hero() {
           <h3 className="text-lg font-semibold text-[#807f7f] uppercase tracking-wide">
             Your Journey to Tomorrow Begins Here
           </h3>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl mt-4 leading-tight font-semibold">
-            Explore the Frontiers of Artificial Intelligence
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl mt-4 font-semibold  flex flex-col">
+            Explore the Frontiers of
+            {/* ANIMATED TEXT */}
+            <FlipWords
+              words={[
+                "Artificial Intelligence",
+                "Agentic AI",
+                "Humanoid Robotics",
+              ]}
+              className="text-white"
+            />
           </h1>
-          <p className="text-[#807f7f] lg:w-[70%]">
+          <p className="text-[#807f7f] lg:w-[70%] leading-5">
             Welcome to the epicenter of AI innovation. FutureTech AI News is
             your passport to a world where machines think, learn, and reshape
             the future. Join us on this visionary expedition into the heart of
             AI.
           </p>
-          <div className="flex items-center space-x-4">
-            <div className="flex -space-x-2">
-              {[...Array(4)].map((_, i) => (
-                <Image
-                  key={i}
-                  src="https://github.com/shadcn.png"
-                  alt={`User ${i + 1}`}
-                  width={40}
-                  height={40}
-                  className="h-10 w-10 rounded-full border-2 border-black"
-                />
-              ))}
+
+          <div className="flex items-center space-x-8">
+            <div className="flex items-center gap-2">
+              <AnimatedTooltip items={people} />
             </div>
             <p className="text-[#807f7f]">
               Over 1000+ articles on emerging tech trends & breakthroughs.
@@ -60,7 +96,7 @@ export default function Hero() {
               <p className="text-3xl font-bold text-yellow-500">10K+</p>
               <p className="text-[#807f7f]">Active Users</p>
             </div>
-          </div>  
+          </div>
           <Link
             href="/blogs"
             className="inline-flex items-center bg-yellow-500 text-[#141414] font-semibold py-3 px-6 rounded-lg hover:bg-yellow-600 transition"
@@ -73,7 +109,6 @@ export default function Hero() {
         {/* Right Section: Call to Action */}
         <div className="lg:w-1/3"></div>
       </div>
-
     </section>
   );
 }

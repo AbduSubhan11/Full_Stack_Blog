@@ -62,7 +62,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-6">
             <Link
               href="/contact"
-              className="bg-yellow-500 text-black  py-2 px-4 rounded hover:bg-yellow-600 transition"
+              className="bg-yellow-500 text-[#141414]  py-2 px-4 rounded hover:bg-yellow-600 transition"
             >
               Contact Us
             </Link>
@@ -73,7 +73,7 @@ export default function Navbar() {
               !localStorage.getItem("user") && (
                 <Link
                   href="/login"
-                  className="bg-yellow-500 text-black  py-2 px-4 rounded hover:bg-yellow-600 transition"
+                  className="bg-yellow-500 text-[#141414]  py-2 px-4 rounded hover:bg-yellow-600 transition"
                 >
                   Login
                 </Link>

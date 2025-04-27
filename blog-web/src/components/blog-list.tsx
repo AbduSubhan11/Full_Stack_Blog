@@ -1,50 +1,11 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-
-const blogs = [
-  {
-    id: 1,
-    author: "John Techson",
-    category: "Quantum Computing",
-    date: "October 15, 2023",
-    title: "The Quantum Leap in Computing",
-    summary:
-      "Explore the revolution in quantum computing, its applications, and its potential impact on various industries.",
-    likes: "24.5k",
-    comments: 50,
-    shares: 20,
-    avatar: "/avatars/john.png",
-  },
-  {
-    id: 2,
-    author: "Sarah Ethicist",
-    category: "AI Ethics",
-    date: "November 5, 2023",
-    title: "The Ethical Dilemmas of AI",
-    summary:
-      "A deep dive into ethical challenges posed by AI, including bias, privacy, and transparency.",
-    likes: "32k",
-    comments: 72,
-    shares: 18,
-    avatar: "/avatars/sarah.png",
-  },
-  {
-    id: 3,
-    author: "Astronomer X",
-    category: "Space Exploration",
-    date: "December 10, 2023",
-    title: "The Mars Colonization Challenge",
-    summary:
-      "Exploring the technical and logistical challenges of human colonization on Mars.",
-    likes: "20k",
-    comments: 31,
-    shares: 12,
-    avatar: "/avatars/astro.png",
-  },
-];
+import { Blog } from "@/Data/blog-types";
+import { fetchUserBlogs } from "./fetch-user-blogs";
+import { toast } from "sonner";
 
 const categories = [
   "All",
@@ -57,11 +18,24 @@ const categories = [
 
 export default function BlogList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  useEffect(() => {
+    const userBlogs = async () => {
+      const data = await fetchUserBlogs();
+      if (data) {
+        setBlogs(data);
+      } else {
+        toast.error("Failed to fetch blogs.");
+      }
+    };
+
+    userBlogs();
+  }, []);
 
   const filteredBlogs =
     selectedCategory === "All"
       ? blogs
-      : blogs.filter((b) => b.category === selectedCategory);
+      : blogs.filter((b) => b.category?.includes(selectedCategory));
 
   return (
     <div className="min-h-screen bg-[#141414] text-white space-y-12">
@@ -102,31 +76,37 @@ export default function BlogList() {
           ))}
         </div>
 
-        <div className="space-y-10 bor ">
-          {filteredBlogs.map((blog) => (
+        <div className="space-y-10 pb-16">
+          {filteredBlogs.length === 0 && (
+            <div className="text-center text-gray-400">
+              No blogs found please add your blogs.
+            </div>
+          )}
+          {/* Blog List */}
+          {filteredBlogs.map((blog:Blog) => (
             <div
-              key={blog.id}
+              key={blog._id}
               className="flex flex-col md:flex-row items-center gap-6 border-t border-gray-800 pt-6"
             >
               <Image
-                src={blog.avatar}
-                alt={blog.author}
+                src={blog.image}
+                alt={blog.title}
                 width={50}
                 height={50}
                 className="rounded-full"
               />
               <div className="flex-1 space-y-4">
                 <div className="text-gray-400 font-semibold">
-                  <h1>{blog.date}</h1>
+                  <h1>{blog.createdAt}</h1>
                 </div>
                 <div className="space-y-2">
                   <h2 className="text-xl font-semibold ">{blog.title}</h2>
-                  <p className="text-gray-400">{blog.summary}</p>
+                  <p className="text-gray-400">{blog.description}</p>
                 </div>
                 <div className="flex items-center gap-4 text-sm text-gray-400">
-                  <span>❤️ {blog.likes}</span>
-                  <span>💬 {blog.comments}</span>
-                  <span>📤 {blog.shares}</span>
+                  <span>❤️ {blog.like.length}</span>
+                  <span>💬 comment</span>
+                  <span>📤 shares</span>
                 </div>
               </div>
               <button className="flex items-center group gap-1 px-4 py-2 text-sm border border-neutral-700 rounded hover:bg-yellow-500 hover:text-[#141414] transition-all duration-500">

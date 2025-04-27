@@ -1,4 +1,5 @@
 "use client";
+import { FileUpload } from "@/components/ui/file-upload";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -22,6 +23,11 @@ export default function BlogPostPage() {
     setSelectedcategory((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
+  };
+
+  // Function to handle file input change
+  const handleFileChange = (file: File | null) => {
+    setImage(file);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,7 +60,7 @@ export default function BlogPostPage() {
       );
 
       const data = await res.json();
-      
+
       if (res.ok) {
         toast.success("Blog posted successfully!");
         setTitle("");
@@ -63,7 +69,6 @@ export default function BlogPostPage() {
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
-
       } else {
         toast.error(data.message);
       }
@@ -86,12 +91,11 @@ export default function BlogPostPage() {
             <label className="block font-medium text-[#807f7f]">
               Blog Image
             </label>
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={(e) => setImage(e.target.files?.[0] || null)}
-              className="w-full p-2 rounded-md border border-neutral-700 bg-[#141414] text-[#807f7f]"
+
+            {/* IMAGE UPLOADER  */}
+            <FileUpload
+              onChange={(files) => handleFileChange(files[0] || null)}
+              image={image}
             />
           </div>
 

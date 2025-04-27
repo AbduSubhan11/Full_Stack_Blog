@@ -5,7 +5,11 @@ import connectDB from "./connectdb/connect.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import dns from 'node:dns';
 dotenv.config();
+
+dns.setServers(['1.1.1.1', '1.0.0.1']);
+
 
 const app = express();
 const PORT = process.env.PORT;
@@ -25,9 +29,9 @@ app.use("/api/v1", authRouter);
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`Server is runnin`);
+      console.log("Server is running");
     });
   })
   .catch((error) => {
-    console.error("Error connecting to DB:", error.message);
+    console.error("Error connecting to DB:", error);
   });
