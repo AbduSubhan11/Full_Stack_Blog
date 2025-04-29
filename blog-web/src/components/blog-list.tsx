@@ -83,7 +83,7 @@ export default function BlogList() {
             </div>
           )}
           {/* Blog List */}
-          {filteredBlogs.map((blog:Blog) => (
+          {filteredBlogs.map((blog: Blog) => (
             <div
               key={blog._id}
               className="flex flex-col md:flex-row items-center gap-6 border-t border-gray-800 pt-6"
@@ -91,16 +91,22 @@ export default function BlogList() {
               <Image
                 src={blog.image}
                 alt={blog.title}
-                width={50}
-                height={50}
+                width={200}
+                height={1000}
                 className="rounded-full"
               />
               <div className="flex-1 space-y-4">
                 <div className="text-gray-400 font-semibold">
-                  <h1>{blog.createdAt}</h1>
+                  <h1>
+                    {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </h1>
                 </div>
                 <div className="space-y-2">
-                  <h2 className="text-xl font-semibold ">{blog.title}</h2>
+                  <h2 className="text-2xl font-semibold ">{blog.title}</h2>
                   <p className="text-gray-400">{blog.description}</p>
                 </div>
                 <div className="flex items-center gap-4 text-sm text-gray-400">
@@ -109,13 +115,16 @@ export default function BlogList() {
                   <span>📤 shares</span>
                 </div>
               </div>
-              <button className="flex items-center group gap-1 px-4 py-2 text-sm border border-neutral-700 rounded hover:bg-yellow-500 hover:text-[#141414] transition-all duration-500">
+              <Link
+                href={`/blogs/${blog._id}`}
+                className="flex items-center group gap-1 px-4 py-2 text-sm border border-neutral-700 rounded hover:bg-yellow-500 hover:text-[#141414] transition-all duration-500"
+              >
                 View Blog{" "}
                 <ArrowUpRight
                   className="group-hover:text-[#141414] text-yellow-400"
                   size={16}
                 />
-              </button>
+              </Link>
             </div>
           ))}
         </div>
