@@ -43,8 +43,8 @@ export default function AboutAIPage() {
           ]}
           contentClassName=""
           backgroundImages={[
-            "https://img.freepik.com/free-photo/futuristic-robot-interacting-with-digital-interface_23-2151966726.jpg?t=st=1745136931~exp=1745140531~hmac=a8c05f6254a7c25f9445376a0e4fd15702b057e8096e33c25707fd65e3d76174&w=1480",
-            "https://img.freepik.com/free-photo/cyberpunk-illustration-with-neon-colors-futuristic-technology_23-2151672054.jpg?t=st=1745137041~exp=1745140641~hmac=1721cb80f3004f9bc49bcfa9c4fc141978a3e60023db78ebbefc51f2d93ffd9a&w=1380",
+            "/images/about/1st-section.jpg",
+            "/images/about/2nd-section.jpg",
           ]}
         />
       </div>

@@ -30,6 +30,7 @@ export default function BlogList() {
     };
 
     userBlogs();
+   
   }, []);
 
   const filteredBlogs =
@@ -111,8 +112,7 @@ export default function BlogList() {
                 </div>
                 <div className="flex items-center gap-4 text-sm text-gray-400">
                   <span>❤️ {blog.like.length}</span>
-                  <span>💬 comment</span>
-                  <span>📤 shares</span>
+            
                 </div>
               </div>
               <Link

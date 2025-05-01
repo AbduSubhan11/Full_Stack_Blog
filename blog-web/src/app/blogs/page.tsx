@@ -1,5 +1,6 @@
 "use client";
 import { fetchUserBlogs } from "@/components/fetch-user-blogs";
+import { CardContainer } from "@/components/ui/3d-card";
 import { Blog } from "@/Data/blog-types";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,11 +42,11 @@ export default function BlogsPage() {
             </p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-10">
             {blogs.map((blog: Blog) => (
-              <div
+              <CardContainer
                 key={blog._id}
-                className="bg-[#191919] rounded-lg overflow-hidden shadow-md hover:shadow-lg transition"
+                className="bg-[#191919] flex flex-col w-full rounded-lg overflow-hidden shadow-md hover:shadow-lg transition p-3"
               >
                 <div className="h-52">
                   <Image
@@ -79,7 +80,7 @@ export default function BlogsPage() {
                     Read More →
                   </Link>
                 </div>
-              </div>
+              </CardContainer>
             ))}
           </div>
         )}

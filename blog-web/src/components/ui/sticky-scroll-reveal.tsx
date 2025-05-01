@@ -53,7 +53,8 @@ export const StickyScroll = ({
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="relative flex h-[30rem] justify-between space-x-10 overflow-y-auto rounded-md "
+      className="relative flex h-[30rem] justify-between space-x-10 overflow-y-auto hide-scrollbar rounded-md"
+
       ref={ref}
     >
       <div className="relative flex items-start">
